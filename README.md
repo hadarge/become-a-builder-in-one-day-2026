@@ -8,6 +8,30 @@ This guide walks you from a brand-new laptop all the way to running the project,
 
 ---
 
+## Screenshots
+
+**Default view** — a stock with a positive daily change, 1-year volume bars and price trend line:
+
+![Default view](docs/screenshots/01-default.png)
+
+**Stock with a loss** — selecting a different ticker updates the chart and shows the change in red:
+
+![Loss stock](docs/screenshots/02-loss-stock.png)
+
+**Different time period** — period selector (1D / 5D / 1M / 3M / 6M / 1Y / 3Y / 5Y):
+
+![5Y period](docs/screenshots/03-period-5y.png)
+
+**My Portfolio (empty state)** — before any trades, the sidebar tab and bottom dock both show an empty state:
+
+![My Portfolio empty](docs/screenshots/04-my-portfolio-empty.png)
+
+**Search filtering** — typing in the search box filters the stock list live:
+
+![Search filter](docs/screenshots/05-search-filter.png)
+
+---
+
 ## Table of contents
 
 1. [Prerequisites — set up your machine](#1-prerequisites--set-up-your-machine)
