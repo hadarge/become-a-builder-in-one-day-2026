@@ -1,8 +1,17 @@
+import { T } from "../theme";
+
 export function Footer() {
   return (
-    <footer className="flex h-[33px] items-center justify-center border-t border-[#262626] bg-[#1a1a1a] text-[12px] text-[#a1a1a1]">
-      Practice trading platform — No real money involved. All trades are
-      simulated for educational purposes only.
+    <footer
+      className="flex h-[36px] shrink-0 items-center justify-center text-[12px]"
+      style={{
+        borderTop: `1px solid ${T.border}`,
+        background: T.surface,
+        color: T.muted,
+      }}
+    >
+      Practice trading platform — No real money involved. Made for the Builder
+      workshop.
     </footer>
   );
 }
