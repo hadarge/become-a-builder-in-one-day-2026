@@ -1,7 +1,9 @@
+import { T } from "../theme";
+
 type DockStat = {
   label: string;
   value: string;
-  valueClass?: string;
+  accent?: string;
   withArrow?: boolean;
 };
 
@@ -10,40 +12,61 @@ const STATS: DockStat[] = [
   { label: "Holdings Value", value: "$0.00" },
   { label: "Total Value", value: "$100,000.00" },
   {
-    label: "Total Gain/Loss",
+    label: "Gain / Loss",
     value: "+$0.00 (0.00%)",
-    valueClass: "text-[#00c950]",
+    accent: T.green,
     withArrow: true,
   },
 ];
 
+function ArrowUpIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" />
+    </svg>
+  );
+}
+
 export function PortfolioDock() {
   return (
-    <section className="flex flex-col border-t border-[#262626] bg-[#1a1a1a]">
-      <div className="flex h-[77px] items-center gap-8 border-b border-[#262626] px-6">
-        <h2 className="text-[16px] font-semibold text-[#eaeaea]">My Portfolio</h2>
-        <div className="flex flex-1 items-center justify-end gap-8">
+    <section
+      className="flex shrink-0 flex-col"
+      style={{ borderTop: `1px solid ${T.border}`, background: T.surface }}
+    >
+      <div
+        className="flex h-[72px] items-center gap-8 px-7"
+        style={{ borderBottom: `1px solid ${T.border}` }}
+      >
+        <h2 className="text-[16px] font-extrabold" style={{ color: T.ink }}>
+          My Portfolio
+        </h2>
+        <div className="flex flex-1 items-center justify-end gap-7">
           {STATS.map((s) => (
             <div key={s.label} className="flex flex-col">
-              <span className="text-[12px] uppercase tracking-[0.3px] text-[#9ea0a3]">
+              <span
+                className="text-[11px] font-bold uppercase tracking-[0.5px]"
+                style={{ color: T.muted }}
+              >
                 {s.label}
               </span>
               <span
-                className={`flex items-center gap-1 text-[16px] font-medium ${s.valueClass ?? "text-[#eaeaea]"}`}
+                className="flex items-center gap-1 text-[15px] font-bold"
+                style={{ color: s.accent ?? T.ink }}
               >
-                {s.withArrow && <span>↑</span>}
+                {s.withArrow && <ArrowUpIcon className="size-3.5" />}
                 {s.value}
               </span>
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="flex flex-1 flex-col items-center justify-center gap-1 py-12">
-        <p className="text-[16px] text-[#a1a1a1]">No holdings yet</p>
-        <p className="text-[14px] text-[#a1a1a1]">
-          Select a stock and click Buy to start trading
-        </p>
       </div>
     </section>
   );

@@ -1,16 +1,44 @@
-type StatCardProps = {
+import { T } from "../theme";
+
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      className={className}
+    >
+      <circle cx="7" cy="7" r="5" />
+      <path d="m11 11 3 3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function StatPill({
+  label,
+  value,
+  accent,
+}: {
   label: string;
   value: string;
-  valueClass?: string;
-};
-
-function StatCard({ label, value, valueClass = "text-[#eaeaea]" }: StatCardProps) {
+  accent?: string;
+}) {
   return (
-    <div className="flex flex-col gap-1 rounded-[10px] bg-[#1a1a1a] px-6 pt-3 pb-3">
-      <span className="text-[12px] whitespace-nowrap uppercase tracking-[0.3px] text-[#9ea0a3]">
+    <div
+      className="flex flex-col gap-0.5 rounded-md border px-4 py-2"
+      style={{ borderColor: T.border, background: T.surface }}
+    >
+      <span
+        className="text-[11px] font-semibold whitespace-nowrap tracking-[0.3px]"
+        style={{ color: T.muted }}
+      >
         {label}
       </span>
-      <span className={`text-[16px] font-medium whitespace-nowrap ${valueClass}`}>
+      <span
+        className="text-[16px] font-extrabold whitespace-nowrap tracking-[-0.3px]"
+        style={{ color: accent ?? T.ink }}
+      >
         {value}
       </span>
     </div>
@@ -19,28 +47,80 @@ function StatCard({ label, value, valueClass = "text-[#eaeaea]" }: StatCardProps
 
 export function Header() {
   return (
-    <header className="flex h-20 items-center justify-between border-b border-[#1a1d22] bg-[#1a1a1a] px-8">
-      <div className="flex flex-col">
-        <h1 className="text-[16px] font-semibold tracking-[-0.7125px] text-[#eaeaea]">
-          My Portfolio Demo
+    <header
+      className="flex h-[60px] shrink-0 items-center justify-between border-b pr-5 pl-6"
+      style={{ borderColor: T.border, background: T.surface }}
+    >
+      <div className="flex min-w-0 items-center gap-3">
+        <h1
+          className="text-[15px] font-extrabold whitespace-nowrap tracking-[-0.2px]"
+          style={{ color: T.ink }}
+        >
+          My Portfolio
         </h1>
-        <p className="text-[14px] tracking-[-0.15px] text-[#9ea0a3]">
-          Practice trading, no real money involved
-        </p>
+        <span className="text-[13px]" style={{ color: T.borderStrong }}>
+          |
+        </span>
+        <span className="text-[13px] font-semibold" style={{ color: T.muted }}>
+          Markets Overview
+        </span>
+        <div className="relative ml-4 hidden w-[320px] md:flex">
+          <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+          <input
+            placeholder="Search"
+            className="h-9 w-full rounded-md border pr-3 pl-9 text-[13px] outline-none transition-colors"
+            style={{
+              borderColor: T.border,
+              background: T.canvas,
+              color: T.text,
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = T.pink;
+              e.target.style.background = T.surface;
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = T.border;
+              e.target.style.background = T.canvas;
+            }}
+          />
+        </div>
       </div>
-
-      <div className="flex items-center gap-6">
-        <StatCard label="Cash Available" value="$100,000.00" />
-        <StatCard label="Total Portfolio Value" value="$100,000.00" />
-        <StatCard
+      <div className="flex items-center gap-2.5">
+        <StatPill label="Cash Available" value="$100,000.00" />
+        <StatPill label="Portfolio Value" value="$100,000.00" />
+        <StatPill
           label="Daily Change"
           value="+0.00 (+0.00%)"
-          valueClass="text-[#3bd671]"
+          accent={T.green}
         />
-      </div>
-
-      <div className="flex size-10 items-center justify-center rounded-full bg-[#3bd671] text-[16px] font-semibold text-[#0e1116]">
-        JD
+        <div className="mx-1 h-7 w-px" style={{ background: T.border }} />
+        <button
+          className="inline-flex size-9 items-center justify-center rounded-md text-[13px] font-semibold transition-colors"
+          style={{ color: T.muted }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = T.canvas)}
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.background = "transparent")
+          }
+        >
+          <svg
+            viewBox="0 0 16 16"
+            className="size-[18px]"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M8 1v1M8 14v1M1 8h1M14 8h1M3.2 3.2l.7.7M12.1 12.1l.7.7M3.2 12.8l.7-.7M12.1 3.9l.7-.7" />
+            <circle cx="8" cy="8" r="3" />
+          </svg>
+        </button>
+        <div
+          className="flex size-9 items-center justify-center rounded-full text-[12px] font-bold text-white"
+          style={{ background: T.pink }}
+        >
+          JD
+        </div>
       </div>
     </header>
   );
