@@ -21,20 +21,20 @@ export function StockDetail({ stock }: Props) {
   const isUp = stock.changePct >= 0;
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col bg-[#0d1117] p-6">
+    <section className="flex min-w-0 flex-1 flex-col bg-[#f8f9fa] p-6">
       <div className="mb-4 flex items-baseline gap-3">
-        <span className="text-[14px] text-[#a1a1a1]">{stock.ticker}</span>
-        <span className="text-[48px] leading-none font-semibold tracking-[0.35px] text-white">
+        <span className="text-[14px] text-[#777777]">{stock.ticker}</span>
+        <span className="text-[48px] leading-none font-semibold tracking-[0.35px] text-[#111111]">
           {stock.currency}
           {stock.price.toFixed(2)}
         </span>
         <span
-          className={`text-[20px] font-medium ${isUp ? "text-[#05df72]" : "text-[#ff6467]"}`}
+          className={`text-[20px] font-medium ${isUp ? "text-[#1a9e4a]" : "text-[#d93025]"}`}
         >
           {isUp ? "+" : ""}
           {stock.changePct.toFixed(2)}%
         </span>
-        <span className="text-[14px] text-[#a1a1a1]">{stock.name}</span>
+        <span className="text-[14px] text-[#777777]">{stock.name}</span>
       </div>
 
       <div className="mb-4 flex gap-1">
@@ -44,8 +44,8 @@ export function StockDetail({ stock }: Props) {
             onClick={() => setPeriod(p)}
             className={`h-8 rounded px-3 text-[14px] transition-colors ${
               p === period
-                ? "bg-[#2a2a2a] font-medium text-white"
-                : "text-[#a1a1a1] hover:bg-[#1f1f1f] hover:text-white"
+                ? "bg-[#e0e0e0] font-medium text-[#111111]"
+                : "text-[#777777] hover:bg-[#ececec] hover:text-[#111111]"
             }`}
           >
             {p}
@@ -59,19 +59,19 @@ export function StockDetail({ stock }: Props) {
             data={stock.history}
             margin={{ top: 16, right: 32, left: 0, bottom: 8 }}
           >
-            <CartesianGrid stroke="#1f1f1f" vertical={false} />
+            <CartesianGrid stroke="#e0e0e0" vertical={false} />
             <XAxis
               dataKey="month"
-              stroke="#a1a1a1"
-              tick={{ fill: "#a1a1a1", fontSize: 12 }}
-              axisLine={{ stroke: "#262626" }}
+              stroke="#777777"
+              tick={{ fill: "#777777", fontSize: 12 }}
+              axisLine={{ stroke: "#d0d0d0" }}
               tickLine={false}
             />
             <YAxis
               yAxisId="vol"
               orientation="right"
-              stroke="#a1a1a1"
-              tick={{ fill: "#a1a1a1", fontSize: 12 }}
+              stroke="#777777"
+              tick={{ fill: "#777777", fontSize: 12 }}
               axisLine={false}
               tickLine={false}
               width={56}
@@ -79,20 +79,20 @@ export function StockDetail({ stock }: Props) {
             <YAxis yAxisId="price" orientation="left" hide domain={["auto", "auto"]} />
             <Tooltip
               contentStyle={{
-                background: "#1a1a1a",
-                border: "1px solid #2a2a2a",
+                background: "#ffffff",
+                border: "1px solid #d0d0d0",
                 borderRadius: 8,
                 fontSize: 12,
               }}
-              labelStyle={{ color: "#eaeaea" }}
-              cursor={{ fill: "rgba(255,255,255,0.04)" }}
+              labelStyle={{ color: "#111111" }}
+              cursor={{ fill: "rgba(0,0,0,0.04)" }}
             />
-            <Bar yAxisId="vol" dataKey="volume" fill="#2a3a4a" radius={[2, 2, 0, 0]} />
+            <Bar yAxisId="vol" dataKey="volume" fill="#c5d8e8" radius={[2, 2, 0, 0]} />
             <Line
               yAxisId="price"
               type="monotone"
               dataKey="price"
-              stroke="#3bd671"
+              stroke="#1a9e4a"
               strokeWidth={2}
               dot={false}
             />
