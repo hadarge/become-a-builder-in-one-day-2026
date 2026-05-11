@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
+import type { HTMLAttributes } from "react";
 import type { Stock } from "../types";
+import { DragGrip } from "./DragGrip";
 
 type Tab = "all" | "portfolio";
 
@@ -7,18 +9,21 @@ type Props = {
   stocks: Stock[];
   selectedTicker: string;
   onSelect: (ticker: string) => void;
+  slotId: string;
+  slotProps: HTMLAttributes<HTMLElement>;
 };
 
 function fmtPrice(s: Stock) {
   return `${s.currency}${s.price.toFixed(2)}`;
 }
 
-function fmtChange(n: number, currency: string) {
-  const sign = n >= 0 ? "+" : "";
-  return `${sign}${currency}${n.toFixed(2)}`;
-}
-
-export function StockList({ stocks, selectedTicker, onSelect }: Props) {
+export function StockList({
+  stocks,
+  selectedTicker,
+  onSelect,
+  slotId,
+  slotProps,
+}: Props) {
   const [tab, setTab] = useState<Tab>("all");
   const [query, setQuery] = useState("");
 
@@ -33,122 +38,133 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
   }, [stocks, query]);
 
   return (
-    <aside className="flex w-[400px] flex-col border-r border-[#262626] bg-[#1a1a1a]">
-      <div className="flex flex-col gap-3 p-4">
-        <div className="flex h-[52px] gap-1 rounded-[10px] bg-[#0a0a0a] p-1">
-          <TabButton
-            active={tab === "all"}
+    <aside className="panel" {...slotProps}>
+      <DragGrip id={slotId} />
+      <div className="list-head">
+        <div className="tabs">
+          <button
+            className={`tab ${tab === "all" ? "active" : ""}`}
             onClick={() => setTab("all")}
-            label="All stocks"
-          />
-          <TabButton
-            active={tab === "portfolio"}
+          >
+            All stocks <span className="pill-count">{stocks.length}</span>
+          </button>
+          <button
+            className={`tab ${tab === "portfolio" ? "active" : ""}`}
             onClick={() => setTab("portfolio")}
-            label="My Portfolio"
-          />
+          >
+            My portfolio
+          </button>
         </div>
 
-        <div className="relative">
-          <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[#a1a1a1]" />
+        <div className="search-wrap">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          >
+            <circle cx="7" cy="7" r="5" />
+            <path d="m11 11 3 3" />
+          </svg>
           <input
+            className="search"
+            placeholder="Search by ticker or company"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search"
-            className="h-9 w-full rounded-lg border border-[#2a2a2a] bg-[#262626]/30 pr-3 pl-9 text-[14px] text-[#eaeaea] placeholder:text-[#a1a1a1] focus:border-[#3bd671] focus:outline-none"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] gap-2 border-y border-[#262626] bg-[#1e1e1e] px-4 py-3 text-[12px] whitespace-nowrap text-[#a1a1a1]">
-        <span className="flex items-center gap-1">Stock / Index ▾</span>
-        <span className="text-right">Last Price</span>
-        <span className="flex items-center justify-end gap-1">Change % ▾</span>
-        <span className="text-right">Daily Change</span>
-        <span className="text-right">Updated</span>
+      <div className="list-cols">
+        <span>Stock</span>
+        <span className="r">Last price</span>
+        <span className="r">Change</span>
+        <span className="r">Updated</span>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="list-scroll">
         {tab === "portfolio" ? (
-          <div className="flex h-full items-center justify-center p-6 text-center text-[14px] text-[#a1a1a1]">
-            You don't own any stocks yet.
+          <div className="empty">
+            <div className="icn">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="3" y="7" width="18" height="13" rx="3" />
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+              </svg>
+            </div>
+            <h4>No holdings yet</h4>
+            <p>Pick a stock from All stocks and tap Buy to open your first position.</p>
+            <button
+              className="btn btn-primary"
+              style={{ marginTop: 10 }}
+              onClick={() => setTab("all")}
+            >
+              Browse stocks
+            </button>
           </div>
         ) : (
           filtered.map((s) => {
             const isSelected = s.ticker === selectedTicker;
             const isUp = s.changePct >= 0;
-            const colorClass = isUp ? "text-[#05df72]" : "text-[#ff6467]";
             return (
               <button
                 key={s.ticker}
+                className={`row ${isSelected ? "selected" : ""}`}
                 onClick={() => onSelect(s.ticker)}
-                className={`grid w-full grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] items-center gap-2 border-b border-[#262626] px-4 py-3 text-left transition-colors hover:bg-[#262626]/40 ${
-                  isSelected ? "bg-[#262626]/60" : ""
-                }`}
               >
-                <div className="flex flex-col">
-                  <span className="text-[16px] font-medium text-white">
-                    {s.ticker}
-                  </span>
-                  <span className="text-[12px] text-[#a1a1a1]">{s.name}</span>
-                </div>
-                <span className="text-right text-[16px] text-white">
-                  {fmtPrice(s)}
-                </span>
-                <span
-                  className={`flex items-center justify-end gap-1 text-[14px] ${colorClass}`}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    minWidth: 0,
+                  }}
                 >
-                  <span>{isUp ? "▲" : "▼"}</span>
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 12,
+                      background: s.color,
+                      color: "#fff",
+                      fontWeight: 800,
+                      fontSize: 12,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {s.ticker.slice(0, 2)}
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <div className="tk">{s.ticker}</div>
+                    <div className="nm truncate">{s.name}</div>
+                  </div>
+                </div>
+                <div className="price">{fmtPrice(s)}</div>
+                <span className={`chg ${isUp ? "up" : "down"}`}>
+                  <span className="tri">{isUp ? "▲" : "▼"}</span>
                   {Math.abs(s.changePct).toFixed(2)}%
                 </span>
-                <span className={`text-right text-[14px] ${colorClass}`}>
-                  {fmtChange(s.dailyChange, s.currency)}
-                </span>
-                <span className="text-right text-[12px] text-[#a1a1a1]">
-                  {s.updated}
-                </span>
+                <div className="upd">{s.updated}</div>
               </button>
             );
           })
         )}
       </div>
     </aside>
-  );
-}
-
-function TabButton({
-  active,
-  onClick,
-  label,
-}: {
-  active: boolean;
-  onClick: () => void;
-  label: string;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={`flex-1 rounded-lg text-[16px] transition-all ${
-        active
-          ? "bg-[#2a2a2a] text-white shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.1)]"
-          : "text-[#a1a1a1] hover:text-white"
-      }`}
-    >
-      {label}
-    </button>
-  );
-}
-
-function SearchIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      className={className}
-    >
-      <circle cx="7" cy="7" r="5" />
-      <path d="m11 11 3 3" strokeLinecap="round" />
-    </svg>
   );
 }

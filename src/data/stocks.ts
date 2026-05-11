@@ -39,6 +39,7 @@ export const STOCKS: Stock[] = [
     dailyChange: 1.9,
     updated: "15:30",
     currency: "$",
+    color: "#2E69E7",
     history: makeHistory(1, 67.8),
   },
   {
@@ -49,6 +50,7 @@ export const STOCKS: Stock[] = [
     dailyChange: 8.2,
     updated: "15:27",
     currency: "$",
+    color: "#48C5B5",
     history: makeHistory(2, 312.4),
   },
   {
@@ -59,6 +61,7 @@ export const STOCKS: Stock[] = [
     dailyChange: 3.6,
     updated: "15:28",
     currency: "$",
+    color: "#A662FF",
     history: makeHistory(3, 145.2),
   },
   {
@@ -69,6 +72,7 @@ export const STOCKS: Stock[] = [
     dailyChange: 2.1,
     updated: "15:25",
     currency: "$",
+    color: "#12C1FF",
     history: makeHistory(4, 89.3),
   },
   {
@@ -79,6 +83,7 @@ export const STOCKS: Stock[] = [
     dailyChange: 3.45,
     updated: "15:26",
     currency: "₪",
+    color: "#FF6550",
     history: makeHistory(5, 156.8),
   },
   {
@@ -89,6 +94,7 @@ export const STOCKS: Stock[] = [
     dailyChange: 0.15,
     updated: "15:24",
     currency: "₪",
+    color: "#83BBFF",
     history: makeHistory(6, 12.45),
   },
   {
@@ -99,6 +105,7 @@ export const STOCKS: Stock[] = [
     dailyChange: -4.3,
     updated: "15:29",
     currency: "₪",
+    color: "#FBBC05",
     history: makeHistory(7, 234.7),
   },
   {
@@ -109,6 +116,7 @@ export const STOCKS: Stock[] = [
     dailyChange: -1.25,
     updated: "15:22",
     currency: "₪",
+    color: "#F75E70",
     history: makeHistory(8, 42.15),
   },
   {
@@ -119,6 +127,7 @@ export const STOCKS: Stock[] = [
     dailyChange: -0.85,
     updated: "15:23",
     currency: "₪",
+    color: "#178F8B",
     history: makeHistory(9, 28.6),
   },
   {
@@ -129,6 +138,7 @@ export const STOCKS: Stock[] = [
     dailyChange: 1.68,
     updated: "15:30",
     currency: "$",
+    color: "#2E69E7",
     history: makeHistory(10, 178.4),
   },
 ];

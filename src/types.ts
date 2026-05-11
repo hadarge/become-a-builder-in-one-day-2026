@@ -6,5 +6,6 @@ export type Stock = {
   dailyChange: number;
   updated: string;
   currency: "$" | "₪";
+  color: string;
   history: { month: string; volume: number; price: number }[];
 };
