@@ -12,7 +12,7 @@ export default function App() {
     STOCKS.find((s) => s.ticker === selectedTicker) ?? STOCKS[0];
 
   return (
-    <div className="flex h-screen flex-col bg-[#121212]">
+    <div className="flex h-screen flex-col bg-[#f5f5f5]">
       <Header />
       <div className="flex min-h-0 flex-1">
         <StockList

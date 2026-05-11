@@ -33,9 +33,9 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
   }, [stocks, query]);
 
   return (
-    <aside className="flex w-[400px] flex-col border-r border-[#262626] bg-[#1a1a1a]">
+    <aside className="flex w-[400px] flex-col border-r border-[#d0d0d0] bg-[#ffffff]">
       <div className="flex flex-col gap-3 p-4">
-        <div className="flex h-[52px] gap-1 rounded-[10px] bg-[#0a0a0a] p-1">
+        <div className="flex h-[52px] gap-1 rounded-[10px] bg-[#ececec] p-1">
           <TabButton
             active={tab === "all"}
             onClick={() => setTab("all")}
@@ -49,17 +49,17 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
         </div>
 
         <div className="relative">
-          <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[#a1a1a1]" />
+          <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[#999999]" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search"
-            className="h-9 w-full rounded-lg border border-[#2a2a2a] bg-[#262626]/30 pr-3 pl-9 text-[14px] text-[#eaeaea] placeholder:text-[#a1a1a1] focus:border-[#3bd671] focus:outline-none"
+            className="h-9 w-full rounded-lg border border-[#d0d0d0] bg-white pr-3 pl-9 text-[14px] text-[#111111] placeholder:text-[#999999] focus:border-[#3bd671] focus:outline-none"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] gap-2 border-y border-[#262626] bg-[#1e1e1e] px-4 py-3 text-[12px] whitespace-nowrap text-[#a1a1a1]">
+      <div className="grid grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] gap-2 border-y border-[#d0d0d0] bg-[#f0f0f0] px-4 py-3 text-[12px] whitespace-nowrap text-[#777777]">
         <span className="flex items-center gap-1">Stock / Index ▾</span>
         <span className="text-right">Last Price</span>
         <span className="flex items-center justify-end gap-1">Change % ▾</span>
@@ -69,29 +69,29 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
 
       <div className="flex-1 overflow-y-auto">
         {tab === "portfolio" ? (
-          <div className="flex h-full items-center justify-center p-6 text-center text-[14px] text-[#a1a1a1]">
+          <div className="flex h-full items-center justify-center p-6 text-center text-[14px] text-[#777777]">
             You don't own any stocks yet.
           </div>
         ) : (
           filtered.map((s) => {
             const isSelected = s.ticker === selectedTicker;
             const isUp = s.changePct >= 0;
-            const colorClass = isUp ? "text-[#05df72]" : "text-[#ff6467]";
+            const colorClass = isUp ? "text-[#1a9e4a]" : "text-[#d93025]";
             return (
               <button
                 key={s.ticker}
                 onClick={() => onSelect(s.ticker)}
-                className={`grid w-full grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] items-center gap-2 border-b border-[#262626] px-4 py-3 text-left transition-colors hover:bg-[#262626]/40 ${
-                  isSelected ? "bg-[#262626]/60" : ""
+                className={`grid w-full grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] items-center gap-2 border-b border-[#e8e8e8] px-4 py-3 text-left transition-colors hover:bg-[#f5f5f5] ${
+                  isSelected ? "bg-[#ececec]" : ""
                 }`}
               >
                 <div className="flex flex-col">
-                  <span className="text-[16px] font-medium text-white">
+                  <span className="text-[16px] font-medium text-[#111111]">
                     {s.ticker}
                   </span>
-                  <span className="text-[12px] text-[#a1a1a1]">{s.name}</span>
+                  <span className="text-[12px] text-[#777777]">{s.name}</span>
                 </div>
-                <span className="text-right text-[16px] text-white">
+                <span className="text-right text-[16px] text-[#111111]">
                   {fmtPrice(s)}
                 </span>
                 <span
@@ -103,7 +103,7 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
                 <span className={`text-right text-[14px] ${colorClass}`}>
                   {fmtChange(s.dailyChange, s.currency)}
                 </span>
-                <span className="text-right text-[12px] text-[#a1a1a1]">
+                <span className="text-right text-[12px] text-[#777777]">
                   {s.updated}
                 </span>
               </button>
@@ -129,8 +129,8 @@ function TabButton({
       onClick={onClick}
       className={`flex-1 rounded-lg text-[16px] transition-all ${
         active
-          ? "bg-[#2a2a2a] text-white shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.1)]"
-          : "text-[#a1a1a1] hover:text-white"
+          ? "bg-white text-[#111111] shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.1)]"
+          : "text-[#777777] hover:text-[#111111]"
       }`}
     >
       {label}
