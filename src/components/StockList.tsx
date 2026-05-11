@@ -33,9 +33,9 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
   }, [stocks, query]);
 
   return (
-    <aside className="flex w-[400px] flex-col border-r border-[#262626] bg-[#1a1a1a]">
+    <aside className="flex w-[400px] flex-col overflow-hidden rounded-2xl border border-white/60 bg-white/55 shadow-[0_1px_0_rgba(255,255,255,0.9)_inset,0_10px_30px_-12px_rgba(15,23,42,0.18)] backdrop-blur-2xl">
       <div className="flex flex-col gap-3 p-4">
-        <div className="flex h-[52px] gap-1 rounded-[10px] bg-[#0a0a0a] p-1">
+        <div className="flex h-[44px] gap-1 rounded-xl border border-white/60 bg-white/40 p-1 backdrop-blur-xl">
           <TabButton
             active={tab === "all"}
             onClick={() => setTab("all")}
@@ -49,17 +49,17 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
         </div>
 
         <div className="relative">
-          <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[#a1a1a1]" />
+          <SearchIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search"
-            className="h-9 w-full rounded-lg border border-[#2a2a2a] bg-[#262626]/30 pr-3 pl-9 text-[14px] text-[#eaeaea] placeholder:text-[#a1a1a1] focus:border-[#3bd671] focus:outline-none"
+            className="h-10 w-full rounded-xl border border-white/60 bg-white/60 pr-3 pl-9 text-[14px] text-slate-900 placeholder:text-slate-400 backdrop-blur-xl transition focus:border-indigo-300 focus:bg-white/80 focus:outline-none focus:ring-4 focus:ring-indigo-300/30"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] gap-2 border-y border-[#262626] bg-[#1e1e1e] px-4 py-3 text-[12px] whitespace-nowrap text-[#a1a1a1]">
+      <div className="grid grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] gap-2 border-y border-white/60 bg-white/30 px-4 py-2.5 text-[11px] font-medium whitespace-nowrap tracking-wide text-slate-500 uppercase backdrop-blur-xl">
         <span className="flex items-center gap-1">Stock / Index ▾</span>
         <span className="text-right">Last Price</span>
         <span className="flex items-center justify-end gap-1">Change % ▾</span>
@@ -69,41 +69,46 @@ export function StockList({ stocks, selectedTicker, onSelect }: Props) {
 
       <div className="flex-1 overflow-y-auto">
         {tab === "portfolio" ? (
-          <div className="flex h-full items-center justify-center p-6 text-center text-[14px] text-[#a1a1a1]">
+          <div className="flex h-full items-center justify-center p-6 text-center text-[14px] text-slate-400">
             You don't own any stocks yet.
           </div>
         ) : (
           filtered.map((s) => {
             const isSelected = s.ticker === selectedTicker;
             const isUp = s.changePct >= 0;
-            const colorClass = isUp ? "text-[#05df72]" : "text-[#ff6467]";
+            const colorClass = isUp ? "text-emerald-600" : "text-rose-500";
             return (
               <button
                 key={s.ticker}
                 onClick={() => onSelect(s.ticker)}
-                className={`grid w-full grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] items-center gap-2 border-b border-[#262626] px-4 py-3 text-left transition-colors hover:bg-[#262626]/40 ${
-                  isSelected ? "bg-[#262626]/60" : ""
+                className={`group relative grid w-full grid-cols-[1.4fr_0.9fr_0.8fr_0.9fr_0.6fr] items-center gap-2 border-b border-white/50 px-4 py-3 text-left transition-all hover:bg-white/50 ${
+                  isSelected
+                    ? "bg-gradient-to-r from-indigo-500/10 via-violet-500/10 to-transparent"
+                    : ""
                 }`}
               >
+                {isSelected && (
+                  <span className="absolute top-2 bottom-2 left-0 w-[3px] rounded-r-full bg-gradient-to-b from-indigo-500 to-violet-500" />
+                )}
                 <div className="flex flex-col">
-                  <span className="text-[16px] font-medium text-white">
+                  <span className="text-[15px] font-semibold text-slate-900">
                     {s.ticker}
                   </span>
-                  <span className="text-[12px] text-[#a1a1a1]">{s.name}</span>
+                  <span className="text-[12px] text-slate-500">{s.name}</span>
                 </div>
-                <span className="text-right text-[16px] text-white">
+                <span className="text-right text-[15px] font-medium text-slate-900">
                   {fmtPrice(s)}
                 </span>
                 <span
-                  className={`flex items-center justify-end gap-1 text-[14px] ${colorClass}`}
+                  className={`flex items-center justify-end gap-1 text-[13px] font-medium ${colorClass}`}
                 >
                   <span>{isUp ? "▲" : "▼"}</span>
                   {Math.abs(s.changePct).toFixed(2)}%
                 </span>
-                <span className={`text-right text-[14px] ${colorClass}`}>
+                <span className={`text-right text-[13px] font-medium ${colorClass}`}>
                   {fmtChange(s.dailyChange, s.currency)}
                 </span>
-                <span className="text-right text-[12px] text-[#a1a1a1]">
+                <span className="text-right text-[11px] text-slate-400">
                   {s.updated}
                 </span>
               </button>
@@ -127,10 +132,10 @@ function TabButton({
   return (
     <button
       onClick={onClick}
-      className={`flex-1 rounded-lg text-[16px] transition-all ${
+      className={`flex-1 rounded-lg text-[14px] font-medium transition-all ${
         active
-          ? "bg-[#2a2a2a] text-white shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_rgba(0,0,0,0.1)]"
-          : "text-[#a1a1a1] hover:text-white"
+          ? "bg-gradient-to-br from-white to-white/70 text-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.08),0_4px_12px_-4px_rgba(15,23,42,0.12)]"
+          : "text-slate-500 hover:text-slate-900"
       }`}
     >
       {label}
