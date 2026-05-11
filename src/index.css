@@ -5,14 +5,91 @@ body,
 #root {
   height: 100%;
   margin: 0;
-  background-color: #121212;
-  color: #eaeaea;
+  color: #0f172a;
   font-family: "Inter", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background: #f6f7fb;
+}
+
 button {
   font-family: inherit;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.12);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.22);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Entrance animations */
+@keyframes rise-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(20px, -16px, 0) scale(1.08); }
+}
+
+@keyframes shimmer-line {
+  0% { stroke-dashoffset: 2000; opacity: 0; }
+  20% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+.rise-in {
+  opacity: 0;
+  animation: rise-in 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fade-in 700ms ease-out forwards;
+}
+
+.blob {
+  animation: blob-drift 14s ease-in-out infinite;
+}
+.blob-2 {
+  animation: blob-drift 18s ease-in-out infinite reverse;
+}
+.blob-3 {
+  animation: blob-drift 22s ease-in-out infinite;
+}
+
+/* Recharts line: subtle draw-on effect (used in addition to library animation) */
+.recharts-line-curve {
+  transition: stroke 600ms ease;
 }
